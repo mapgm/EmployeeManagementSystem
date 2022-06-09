@@ -92,6 +92,32 @@ void WorkerManager::addEmp()
 
 			cout << "请输入第 " << i + 1 << " 个新职工编号：" << endl;
 			cin >> id;
+			
+			// 如果新的职工编号被占用，就寻找未被占用的最小编号做推荐
+			int rmdId = 0;
+			if (this->isExist(id) != -1)
+			{
+				for (int i = 0; i < this->empNum; i++)
+				{
+					if (this->empArray[i]->id > rmdId)
+					{
+						rmdId = this->empArray[i]->id;
+					}
+				}
+				for (int i = 1; i < rmdId + 2; i++)
+				{
+					if (this->isExist(i) == -1)
+					{
+						rmdId = i;
+						break;
+					}
+				}
+			}
+			while (this->isExist(id) != -1)
+			{
+				cout << "您输入的编号已被占用，请重新输入！推荐编号为 " << rmdId << endl;
+				cin >> id;
+			}
 			cout << "请输入第 " << i + 1 << " 个新职工姓名：" << endl;
 			cin >> name;
 			cout << "请选择该职工的岗位：" << endl;
@@ -243,6 +269,12 @@ void WorkerManager::delEmp()
 	}
 	else
 	{
+		for (int i = 0; i < empNum; i++)
+		{
+			// 利用多态调用接口
+			this->empArray[i]->showInfo();
+		}
+
 		// 按职工编号删除
 		cout << "请输入想要删除的职工号：" << endl;
 		int id = 0;
@@ -295,6 +327,32 @@ void WorkerManager::modEmp()
 
 			cout << "查到： " << id << "号职工，请输入新职工号： " << endl;
 			cin >> newId;
+
+			// 如果新的职工编号被占用，就寻找未被占用的最小编号做推荐
+			int rmdId = 0;
+			if (this->isExist(newId) != -1)
+			{
+				for (int i = 0; i < this->empNum; i++)
+				{
+					if (this->empArray[i]->id > rmdId)
+					{
+						rmdId = this->empArray[i]->id;
+					}
+				}
+				for (int i = 1; i < rmdId + 2; i++)
+				{
+					if (this->isExist(i) == -1)
+					{
+						rmdId = i;
+						break;
+					}
+				}
+			}
+			while (this->isExist(newId) != -1)
+			{
+				cout << "您输入的编号已被占用，请重新输入！推荐编号为 " << rmdId << endl;
+				cin >> newId;
+			}
 
 			cout << "请输入新姓名： " << endl;
 			cin >> newName;
