@@ -498,6 +498,15 @@ WorkerManager::~WorkerManager()
 {
 	if (this->empArray != nullptr)
 	{
+		for (int i = 0; i < this->empNum; i++)
+		{
+			if (this->empArray[i] != nullptr)
+			{
+				delete this->empArray[i];
+				empArray[i] = nullptr;
+			}
+		}
 		delete[] this->empArray;
+		this->empArray = nullptr;
 	}
 }
